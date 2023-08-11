@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace FinalProject_DSTALGO
 {
-    internal class DeliverySystem
+    internal class Program
     {
         public class CustomItem
         {
+            //Dito yung mga details ng package
             public string Destination { get; }
             public double Weight { get; }
             public int Priority { get; }
 
             public CustomItem(string stringValue, double doubleValue, int intValue)
             {
+                //details ng items
                 Destination = stringValue;
                 Weight = doubleValue;
                 Priority = intValue;
@@ -24,6 +25,7 @@ namespace FinalProject_DSTALGO
 
             public override string ToString()
             {
+                //para ito sa pag display ng items
                 return $"String: {Destination}, Double: {Weight}, Int: {Priority}";
             }
         }
@@ -32,9 +34,13 @@ namespace FinalProject_DSTALGO
 
             int choice;
 
+            //stack
             Stack<CustomItem> deliveryStack = new Stack<CustomItem>();
+            //queue
             Queue<CustomItem> deliveryQueue = new Queue<CustomItem>();
+            //list
             List<CustomItem> deliveredPackages = new List<CustomItem>();
+            //stack para sa current/undelivered items
             Stack<CustomItem> undeliveredStack = new Stack<CustomItem>();
 
             do
@@ -57,7 +63,7 @@ namespace FinalProject_DSTALGO
                         ViewUndeliveredPackages(undeliveredStack);
                         break;
                     case 3:
-
+                        ExecuteDelivery(deliveryStack, undeliveredStack);
                         break;
                     case 4:
 
@@ -97,15 +103,18 @@ namespace FinalProject_DSTALGO
             
             CustomItem item1 = new CustomItem(destination, weight, priority);
 
+            //"item1" - eto yung details ng package pero combined into 1 item
             if(priority == 1)
             {
+                //send to deliverystack
                 deliveryStack.Push(item1);
+                //also send to undelivered stack
                 undeliveredStack.Push(item1);
             }
             else
             {
                 //send to queue
-                //send to undelivered queue
+                //send to undelivered stack
             }
 
         }
@@ -120,15 +129,21 @@ namespace FinalProject_DSTALGO
                 return;
             }
 
-            foreach (CustomItem package in undeliveredStack)
+            foreach (CustomItem item in undeliveredStack)
             {
-                Console.WriteLine($"Undelivered package to {package.Destination} (Priority: {package.Priority})");
+                Console.WriteLine($"Undelivered package to {item.Destination} (Priority: {item.Priority})");
             }
         }
 
-        static void ExecuteDelivery(Stack<CustomItem> deliveryStack, List<CustomItem> deliveredPackages, Queue<CustomItem> deliveryQueue)
+        static void ExecuteDelivery(Stack<CustomItem> deliveryStack, Stack<CustomItem> undeliveredStack)
         {
+            while (deliveryStack.Count > 0)
+            {
+                CustomItem item = deliveryStack.Pop();
+                CustomItem undelivered = undeliveredStack.Pop();
 
+                Console.WriteLine($"Delivering package to {item.Destination} (Priority: {item.Priority})");
+            }
         }
     }
 }

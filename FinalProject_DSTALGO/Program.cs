@@ -125,5 +125,10 @@ namespace FinalProject_DSTALGO
                 Console.WriteLine($"Undelivered package to {package.Destination} (Priority: {package.Priority})");
             }
         }
+
+        static void ExecuteDelivery(Stack<CustomItem> deliveryStack, List<CustomItem> deliveredPackages, Queue<CustomItem> deliveryQueue)
+        {
+
+        }
     }
 }
